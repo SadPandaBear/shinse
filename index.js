@@ -25,17 +25,13 @@ const main = (initialState, eff) => () => {
     }
   })
 
-  const elems = ["osc1", "osc2", "osc3", "osc4"].map((e) =>
-    document.getElementById(e),
-  )
-  elems.forEach((e, i) => {
-    e.addEventListener("change", function (e) {
-      if (e.target.checked) {
-        effects.playOscillator(i)
-      } else {
-        effects.stopOscillator(i)
-      }
-    })
+  const btnOscillator = document.getElementById("oscillator")
+  btnOscillator.addEventListener("change", function (e) {
+    if (e.target.checked) {
+      effects.playOscillator()
+    } else {
+      effects.stopOscillator()
+    }
   })
 }
 
