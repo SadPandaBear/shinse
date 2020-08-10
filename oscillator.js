@@ -1,13 +1,8 @@
-const createOscillator = (context, { wave: { type, frequency }, ...state }) => {
+const createOscillator = (context, { oscillator, masterGainNode }) => {
   const osc = context.createOscillator()
-  osc.connect(state.masterGainNode).connect(context.destination)
+  osc.connect(masterGainNode).connect(context.destination)
+  osc.type = oscillator.wave.type
 
-  if (type == WaveType.CUSTOM) {
-    osc.setPeriodicWave(customWaveform)
-  } else {
-    osc.type = WaveType.SINE
-  }
-
-  osc.frequency.value = frequency
+  osc.frequency.value = oscillator.wave.frequency
   return osc
 }

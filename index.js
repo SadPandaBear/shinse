@@ -3,15 +3,15 @@ window.AudioContext =
 
 const main = (initialState, eff) => () => {
   const audioContext = new AudioContext()
+  audioContext.suspend()
+  const analyser = audioContext.createAnalyser()
 
-  const sineTerms = new Float32Array([0, 0, 1, 0, 1])
-  const cosineTerms = new Float32Array(sineTerms.length)
-  const customWaveform = audioContext.createPeriodicWave(cosineTerms, sineTerms)
+  const oscilloscope = Oscilloscope(analyser)
+  oscilloscope.init()
 
   const state = Object.assign(initialState, {
-    masterGainNode: createGain(audioContext),
+    masterGainNode: createGain(audioContext, analyser),
   })
-
   const effects = eff(state, audioContext)
 
   const btnPlayer = document.getElementById("player")

@@ -10,13 +10,16 @@ const Effects = (state, context) => {
   }
 
   const playOscillator = (i) => {
-    state.oscillators[i] = createOscillator(context, state)
-    state.oscillators[i].start()
+    state.oscillators[i].node = createOscillator(context, {
+      oscillator: state.oscillators[i],
+      masterGainNode: state.masterGainNode,
+    })
+    state.oscillators[i].node.start()
   }
 
   const stopOscillator = (i) => {
-    state.oscillators[i].stop(0)
-    state.oscillators[i] = null
+    state.oscillators[i].node.stop(0)
+    state.oscillators[i].node = null
   }
 
   return {

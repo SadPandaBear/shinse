@@ -3,15 +3,18 @@ const WaveType = {
   SQUARE: "square",
   SAWTOOTH: "sawtooth",
   TRIANGLE: "triangle",
-  CUSTOM: "custom",
 }
 
 const initialState = {
-  oscillators: [],
+  oscillators: Array(4)
+    .fill()
+    .map(() => ({
+      node: null,
+      wave: {
+        type: WaveType.SINE,
+        frequency: 261.63,
+      },
+    })),
   masterGainNode: null,
-  wave: {
-    type: WaveType.SINE,
-    frequency: 880,
-  },
   playing: false,
 }
