@@ -30,24 +30,23 @@ function AddOscillator({ dispatch }) {
 function Oscillators({ oscillators, dispatch }) {
   const $container = document.createElement("div")
 
-  oscillators
-    .map((oscillator, index) => {
-      const $elem = document.createElement("div")
-      const $input = document.createElement("input")
-      $input.type = "checkbox"
-      $input.checked = oscillator.playing
-      $input.onchange = (e) => {
-        if (!oscillator.playing) {
-          dispatch(playOscillator({ index }))
-        } else {
-          dispatch(stopOscillator({ index }))
-        }
+  const $elems = oscillators.map((oscillator, index) => {
+    const $elem = document.createElement("div")
+    const $input = document.createElement("input")
+    $input.type = "checkbox"
+    $input.checked = oscillator.playing
+    $input.onchange = (e) => {
+      if (!oscillator.playing) {
+        dispatch(playOscillator({ index }))
+      } else {
+        dispatch(stopOscillator({ index }))
       }
-      $elem.appendChild(Oscilloscope({ analyser: oscillator.analyser }))
-      $elem.appendChild($input)
-      return $elem
-    })
-    .forEach(($elem) => $container.appendChild($elem))
+    }
+    $elem.appendChild(Oscilloscope({ analyser: oscillator.analyser }))
+    $elem.appendChild($input)
+    return $elem
+  })
 
+  $container.append(...$elems)
   return $container
 }
