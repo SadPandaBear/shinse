@@ -30,7 +30,6 @@ const Store = (state) => (context) => {
     state.oscillators[i].playing = false
   }
 
-
   const addOscillator = () => {
     state.oscillators.push(initialOscillator)
     setupOscillators()

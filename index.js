@@ -6,7 +6,7 @@ const btnAddOscillator = document.getElementById("add-oscillator")
 
 const render = (state, actions) => {
   const elemns = document.getElementById("oscillators")
-  elemns.innerHTML = ''
+  elemns.innerHTML = ""
   state.oscillators.forEach((oscillator, i) => {
     const elem = document.createElement("input")
     elem.type = "checkbox"
