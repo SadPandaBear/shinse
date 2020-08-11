@@ -1,6 +1,6 @@
-function setupOscillators() {
+function setupOperators() {
   return {
-    type: "SETUP_OSCILLATORS",
+    type: "SETUP_OPERATORS",
   }
 }
 
@@ -16,22 +16,22 @@ function stop() {
   }
 }
 
-function addOscillator() {
+function addOperator() {
   return {
-    type: "ADD_OSCILLATOR",
+    type: "ADD_OPERATOR",
   }
 }
 
-function stopOscillator(payload) {
+function stopOperator(payload) {
   return {
-    type: "STOP_OSCILLATOR",
+    type: "STOP_OPERATOR",
     payload,
   }
 }
 
-function playOscillator(payload) {
+function playOperator(payload) {
   return {
-    type: "PLAY_OSCILLATOR",
+    type: "PLAY_OPERATOR",
     payload,
   }
 }

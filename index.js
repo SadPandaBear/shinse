@@ -2,18 +2,14 @@ window.AudioContext =
   window.webkitAudioContext || window.AudioContext || window.mozAudioContext
 
 function render() {
-  return [
-    Play,
-    AddOscillator,
-    (props) => Oscillators({ ...props.state, ...props }),
-  ]
+  return [Play, AddOperator, (props) => Operators({ ...props.state, ...props })]
 }
 
 function update({ state, dispatch }) {
   const $app = document.getElementById("app")
   if ($app.innerHTML === "") {
     $app.innerHTML = "Loading..."
-    dispatch(setupOscillators())
+    dispatch(setupOperators())
   } else {
     const $elems = render()
 

@@ -5,7 +5,7 @@ const WaveType = {
   TRIANGLE: "triangle",
 }
 
-const initialOscillator = {
+const initialOperator = {
   node: null,
   gain: null,
   analyser: null,
@@ -19,6 +19,6 @@ const initialOscillator = {
 }
 
 const initialState = {
-  oscillators: [initialOscillator],
+  operators: [initialOperator],
   playing: false,
 }

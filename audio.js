@@ -16,7 +16,7 @@ const createAnalyser = (context) => {
   return analyser
 }
 
-function Oscillator(context, settings) {
+function Operator(context, settings) {
   const oscillator = createOscillator(context, settings.wave)
   const gain = createGain(context)
   const analyser = createAnalyser(context)
@@ -24,7 +24,7 @@ function Oscillator(context, settings) {
   gain.connect(analyser)
   return {
     settings,
-    node: oscillator,
+    oscillator,
     gain,
     analyser,
     playing: false,

@@ -18,12 +18,12 @@ function Play({ state, dispatch }) {
   })
 }
 
-function AddOscillator({ dispatch }) {
+function AddOperator({ dispatch }) {
   return Button({
     onClick: () => {
-      dispatch(addOscillator())
+      dispatch(addOperator())
     },
-    title: "AddOscillator",
+    title: "Add Operator",
   })
 }
 
@@ -43,25 +43,25 @@ function ChangeWave({ index, type, dispatch }) {
   return $select
 }
 
-function Oscillators({ oscillators, dispatch }) {
+function Operators({ operators, dispatch }) {
   const $container = document.createElement("div")
 
-  const $elems = oscillators.map((oscillator, index) => {
+  const $elems = operators.map((operator, index) => {
     const $elem = document.createElement("div")
     const $input = document.createElement("input")
     $input.type = "checkbox"
-    $input.checked = oscillator.playing
+    $input.checked = operator.playing
     $input.onchange = (e) => {
-      if (!oscillator.playing) {
-        dispatch(playOscillator({ index }))
+      if (!operator.playing) {
+        dispatch(playOperator({ index }))
       } else {
-        dispatch(stopOscillator({ index }))
+        dispatch(stopOperator({ index }))
       }
     }
     $elem.appendChild(
-      ChangeWave({ index, type: oscillator.settings.wave.type, dispatch })
+      ChangeWave({ index, type: operator.settings.wave.type, dispatch })
     )
-    $elem.appendChild(Oscilloscope({ analyser: oscillator.analyser }))
+    $elem.appendChild(Oscilloscope({ analyser: operator.analyser }))
     $elem.appendChild($input)
     return $elem
   })

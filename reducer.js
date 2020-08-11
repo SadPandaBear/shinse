@@ -12,62 +12,64 @@ function reducer({ action, state, context }) {
         ...state,
         playing: false,
       }
-    case "ADD_OSCILLATOR":
-      const oscillator = Oscillator(context, initialOscillator.settings)
+    case "ADD_OPERATOR":
       return {
         ...state,
-        oscillators: [...state.oscillators, oscillator],
+        operators: [
+          ...state.operators,
+          Operator(context, initialOperator.settings),
+        ],
       }
-    case "PLAY_OSCILLATOR":
-      state.oscillators[action.payload.index].node.start()
+    case "PLAY_OPERATOR":
+      state.operators[action.payload.index].oscillator.start()
       return {
         ...state,
-        oscillators: state.oscillators.map((oscillator, i) => {
+        operators: state.operators.map((operator, i) => {
           return i === action.payload.index
-            ? { ...oscillator, playing: true }
-            : oscillator
+            ? { ...operator, playing: true }
+            : operator
         }),
       }
-    case "STOP_OSCILLATOR":
-      state.oscillators[action.payload.index].node.stop()
+    case "STOP_OPERATOR":
+      state.operators[action.payload.index].oscillator.stop()
       return {
         ...state,
-        oscillators: state.oscillators.map((oscillator, i) => {
+        operators: state.operators.map((operator, i) => {
           return i === action.payload.index
-            ? { ...Oscillator(context, oscillator.settings), playing: false }
-            : oscillator
+            ? { ...Operator(context, operator.settings), playing: false }
+            : operator
         }),
       }
-    case "SETUP_OSCILLATORS":
+    case "SETUP_OPERATORS":
       return {
         ...state,
-        oscillators: state.oscillators.map(({ settings }) => {
-          return Oscillator(context, settings)
+        operators: state.operators.map(({ settings }) => {
+          return Operator(context, settings)
         }),
       }
     case "SET_WAVE_FORM": {
       return {
         ...state,
-        oscillators: state.oscillators.map((oscillator, i) => {
+        operators: state.operators.map((operator, i) => {
           if (i === action.payload.index) {
-            if (oscillator.playing) {
-              oscillator.node.stop()
+            if (operator.playing) {
+              operator.oscillator.stop()
             }
 
-            const osc = {
-              ...oscillator,
+            const op = {
+              ...operator,
               settings: {
-                ...oscillator.settings,
+                ...operator.settings,
                 wave: {
-                  ...oscillator.settings.wave,
+                  ...operator.settings.wave,
                   type: action.payload.type,
                 },
               },
             }
 
-            return { ...Oscillator(context, osc.settings), playing: false }
+            return { ...Operator(context, osc.settings), playing: false }
           } else {
-            return oscillator
+            return operator
           }
         }),
       }
