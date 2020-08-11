@@ -16,10 +16,7 @@ function reducer({ action, state, context }) {
       const oscillator = Oscillator(context, initialOscillator.settings)
       return {
         ...state,
-        oscillators: [
-          ...state.oscillators,
-          oscillator
-        ],
+        oscillators: [...state.oscillators, oscillator],
       }
     case "PLAY_OSCILLATOR":
       state.oscillators[action.payload.index].node.start()
@@ -51,20 +48,28 @@ function reducer({ action, state, context }) {
     case "SET_WAVE_FORM": {
       return {
         ...state,
-        oscillators: state.oscillators.map(
-          (oscillator, i) => {
-            if(i === action.payload.index) {
-              if(oscillator.playing) {
-                oscillator.node.stop()
-              }
-              const osc = {...oscillator }
-              osc.settings.wave.type = action.payload.type
-              return {...Oscillator(context, osc.settings), playing: false}
-            } else {
-              return oscillator
+        oscillators: state.oscillators.map((oscillator, i) => {
+          if (i === action.payload.index) {
+            if (oscillator.playing) {
+              oscillator.node.stop()
             }
+
+            const osc = {
+              ...oscillator,
+              settings: {
+                ...oscillator.settings,
+                wave: {
+                  ...oscillator.settings.wave,
+                  type: action.payload.type,
+                },
+              },
+            }
+
+            return { ...Oscillator(context, osc.settings), playing: false }
+          } else {
+            return oscillator
           }
-        )
+        }),
       }
     }
   }

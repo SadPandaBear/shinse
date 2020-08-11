@@ -22,10 +22,11 @@ function Oscillator(context, settings) {
   const analyser = createAnalyser(context)
   oscillator.connect(gain).connect(context.destination)
   gain.connect(analyser)
-  return { 
-    settings, 
-    node: oscillator, 
-    gain, analyser, 
-    playing: false 
+  return {
+    settings,
+    node: oscillator,
+    gain,
+    analyser,
+    playing: false,
   }
 }

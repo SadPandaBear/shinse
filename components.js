@@ -29,7 +29,7 @@ function AddOscillator({ dispatch }) {
 
 function ChangeWave({ index, type, dispatch }) {
   const $select = document.createElement("select")
-  const $options = Object.values(WaveType).map(val => {
+  const $options = Object.values(WaveType).map((val) => {
     const $option = document.createElement("option")
     $option.value = val
     $option.text = val
@@ -58,7 +58,9 @@ function Oscillators({ oscillators, dispatch }) {
         dispatch(stopOscillator({ index }))
       }
     }
-    $elem.appendChild(ChangeWave({ index, type: oscillator.settings.wave.type, dispatch }))
+    $elem.appendChild(
+      ChangeWave({ index, type: oscillator.settings.wave.type, dispatch })
+    )
     $elem.appendChild(Oscilloscope({ analyser: oscillator.analyser }))
     $elem.appendChild($input)
     return $elem
