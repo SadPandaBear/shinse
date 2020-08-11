@@ -55,7 +55,6 @@ const Store = (state) => (context) => {
     state.oscillators.push(initialOscillator)
     const i = state.oscillators.length - 1
     setupOscillators()
-    state.oscillators[i].node = createOscillator(context, state.oscillators[i])
     render()
   }
 
