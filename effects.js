@@ -8,11 +8,9 @@ const Effects = (state) => (context) => {
     })
   }
 
-  const drawOscilloscope = () => {
-    state.oscillators.forEach((e, i) => {
-      const oscilloscope = Oscilloscope(e.analyser, i)
-      oscilloscope.init()
-    })
+  const drawOscilloscope = (analyser, i) => {
+    const oscilloscope = Oscilloscope(analyser, i)
+    oscilloscope.init()
   }
 
   const play = () => {
@@ -35,21 +33,40 @@ const Effects = (state) => (context) => {
     state.oscillators[i].node = null
   }
 
+  const render = () => {
+    const oscillators = document.getElementById("oscillators")
+
+    state.oscillators.forEach((oscillator, i) => {
+      const elem = document.createElement("input")
+      elem.type = "checkbox"
+      drawOscilloscope(oscillator.analyser, i)
+      elem.addEventListener("change", function (e) {
+        if (e.target.checked) {
+          playOscillator(i)
+        } else {
+          stopOscillator(i)
+        }
+      })
+      oscillators.insertAdjacentElement("beforeend", elem)
+    })
+  }
+
   const addOscillator = () => {
     state.oscillators.push(initialOscillator)
     const i = state.oscillators.length - 1
     setupOscillators()
-    drawOscilloscope()
     state.oscillators[i].node = createOscillator(context, state.oscillators[i])
+    render()
   }
 
   const init = () => {
     setupOscillators()
-    drawOscilloscope()
+    render()
   }
 
   return {
     init,
+    render,
     addOscillator,
     playOscillator,
     stopOscillator,

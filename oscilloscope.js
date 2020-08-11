@@ -1,6 +1,6 @@
 const Oscilloscope = (analyser, i) => {
   document
-    .getElementById("app")
+    .getElementById("oscillators")
     .insertAdjacentHTML("beforeend", `<canvas id="canvas-${i}"></canvas>`)
   const canvas = document.getElementById(`canvas-${i}`)
   const canvasCtx = canvas.getContext("2d")
