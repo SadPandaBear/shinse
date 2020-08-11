@@ -1,9 +1,9 @@
 window.AudioContext =
   window.webkitAudioContext || window.AudioContext || window.mozAudioContext
 
-const main = (eff) => () => {
+const main = (store) => () => {
   const audioContext = new AudioContext()
-  const { state, ...actions } = eff(audioContext)
+  const { state, ...actions } = store(audioContext)
 
   actions.init()
 
@@ -25,4 +25,4 @@ const main = (eff) => () => {
   })
 }
 
-document.addEventListener("DOMContentLoaded", main(Effects(initialState)))
+document.addEventListener("DOMContentLoaded", main(Store(initialState)))

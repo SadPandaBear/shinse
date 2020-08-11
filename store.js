@@ -1,4 +1,4 @@
-const Effects = (state) => (context) => {
+const Store = (state) => (context) => {
   context.suspend()
 
   const setupOscillators = () => {
