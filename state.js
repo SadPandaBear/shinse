@@ -13,6 +13,7 @@ const initialOscillator = {
   },
   gain: null,
   analyser: null,
+  playing: false
 }
 
 const initialState = {
