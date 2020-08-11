@@ -20,7 +20,6 @@ const main = (store) => () => {
 
   const btnAddOscillator = document.getElementById("add-oscillator")
   btnAddOscillator.addEventListener("click", function () {
-    oscillators.innerHTML = ""
     actions.addOscillator()
   })
 }

@@ -35,6 +35,7 @@ const Store = (state) => (context) => {
 
   const render = () => {
     const oscillators = document.getElementById("oscillators")
+    oscillators.innerHTML = ""
 
     state.oscillators.forEach((oscillator, i) => {
       const elem = document.createElement("input")
