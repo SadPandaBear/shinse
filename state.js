@@ -7,12 +7,14 @@ const WaveType = {
 
 const initialOscillator = {
   node: null,
-  wave: {
-    type: WaveType.SINE,
-    frequency: 261.63,
-  },
   gain: null,
   analyser: null,
+  settings: {
+    wave: {
+      type: WaveType.SINE,
+      frequency: 261.63,
+    },
+  },
   playing: false,
 }
 

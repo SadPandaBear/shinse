@@ -18,5 +18,10 @@ function Oscillator(context, settings) {
   analyser.fftSize = 2048
   const gain = createGain(context, analyser)
   oscillator.connect(gain)
-  return { ...settings, node: oscillator, gain, analyser }
+  return { 
+    settings, 
+    node: oscillator, 
+    gain, analyser, 
+    playing: false 
+  }
 }

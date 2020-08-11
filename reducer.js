@@ -17,7 +17,7 @@ function reducer({ action, state, context }) {
         ...state,
         oscillators: [
           ...state.oscillators,
-          Oscillator(context, initialOscillator),
+          Oscillator(context, initialOscillator.settings),
         ],
       }
     case "PLAY_OSCILLATOR":
@@ -36,15 +36,15 @@ function reducer({ action, state, context }) {
         ...state,
         oscillators: state.oscillators.map((oscillator, i) => {
           return i === action.payload.index
-            ? { ...Oscillator(context, oscillator), playing: false }
+            ? { ...Oscillator(context, oscillator.settings), playing: false }
             : oscillator
         }),
       }
     case "SETUP_OSCILLATORS":
       return {
         ...state,
-        oscillators: state.oscillators.map((o) => {
-          return Oscillator(context, o)
+        oscillators: state.oscillators.map(({ settings }) => {
+          return Oscillator(context, settings)
         }),
       }
   }
