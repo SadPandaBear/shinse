@@ -1,5 +1,8 @@
-const Oscilloscope = (analyser) => {
-  const canvas = document.getElementById("canvas")
+const Oscilloscope = (analyser, i) => {
+  document
+    .getElementById("app")
+    .insertAdjacentHTML("beforeend", `<canvas id="canvas-${i}"></canvas>`)
+  const canvas = document.getElementById(`canvas-${i}`)
   const canvasCtx = canvas.getContext("2d")
 
   canvas.width = 512

@@ -5,14 +5,17 @@ const WaveType = {
   TRIANGLE: "triangle",
 }
 
-const initialState = {
-  oscillator: {
-    node: null,
-    wave: {
-      type: WaveType.SINE,
-      frequency: 261.63,
-    },
+const initialOscillator = {
+  node: null,
+  wave: {
+    type: WaveType.SINE,
+    frequency: 261.63,
   },
-  masterGainNode: null,
+  gain: null,
+  analyser: null,
+}
+
+const initialState = {
+  oscillators: [initialOscillator],
   playing: false,
 }

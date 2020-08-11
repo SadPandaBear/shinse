@@ -1,8 +1,7 @@
-const createOscillator = (context, { oscillator, masterGainNode }) => {
+const createOscillator = (context, oscillator) => {
   const osc = context.createOscillator()
-  osc.connect(masterGainNode).connect(context.destination)
+  osc.connect(oscillator.gain).connect(context.destination)
   osc.type = oscillator.wave.type
-
   osc.frequency.value = oscillator.wave.frequency
   return osc
 }

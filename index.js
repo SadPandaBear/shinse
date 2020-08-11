@@ -1,38 +1,47 @@
 window.AudioContext =
   window.webkitAudioContext || window.AudioContext || window.mozAudioContext
 
-const main = (initialState, eff) => () => {
+const main = (eff) => () => {
   const audioContext = new AudioContext()
-  audioContext.suspend()
-  const analyser = audioContext.createAnalyser()
+  const oscillators = document.getElementById("oscillators")
 
-  const oscilloscope = Oscilloscope(analyser)
-  oscilloscope.init()
+  const { state, ...actions } = eff(audioContext)
 
-  const state = Object.assign(initialState, {
-    masterGainNode: createGain(audioContext, analyser),
-  })
-  const effects = eff(state, audioContext)
+  actions.init()
+  updateOscillatorBoxes()
 
   const btnPlayer = document.getElementById("player")
   btnPlayer.addEventListener("click", function () {
     if (!state.playing) {
-      effects.play()
+      actions.play()
       btnPlayer.innerText = "Stop"
     } else {
-      effects.stop()
+      actions.stop()
       btnPlayer.innerText = "Play"
     }
   })
 
-  const btnOscillator = document.getElementById("oscillator")
-  btnOscillator.addEventListener("change", function (e) {
-    if (e.target.checked) {
-      effects.playOscillator()
-    } else {
-      effects.stopOscillator()
-    }
+  function updateOscillatorBoxes() {
+    state.oscillators.forEach((_, i) => {
+      const elem = document.createElement("input")
+      elem.type = "checkbox"
+      elem.addEventListener("change", function (e) {
+        if (e.target.checked) {
+          actions.playOscillator(i)
+        } else {
+          actions.stopOscillator(i)
+        }
+      })
+      oscillators.insertAdjacentElement("beforeend", elem)
+    })
+  }
+
+  const btnAddOscillator = document.getElementById("add-oscillator")
+  btnAddOscillator.addEventListener("click", function () {
+    oscillators.innerHTML = ""
+    actions.addOscillator()
+    updateOscillatorBoxes()
   })
 }
 
-document.addEventListener("DOMContentLoaded", main(initialState, Effects))
+document.addEventListener("DOMContentLoaded", main(Effects(initialState)))
