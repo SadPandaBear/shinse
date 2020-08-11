@@ -67,7 +67,7 @@ function reducer({ action, state, context }) {
               },
             }
 
-            return { ...Operator(context, osc.settings), playing: false }
+            return { ...Operator(context, op.settings), playing: false }
           } else {
             return operator
           }
