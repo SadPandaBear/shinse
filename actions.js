@@ -35,3 +35,10 @@ function playOscillator(payload) {
     payload,
   }
 }
+
+function setWaveForm(payload) {
+  return {
+    type: "SET_WAVE_FORM",
+    payload,
+  }
+}

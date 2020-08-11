@@ -1,23 +1,27 @@
-const createOscillator = (context, settings) => {
+const createOscillator = (context, { type, frequency }) => {
   const osc = context.createOscillator()
-  osc.type = settings.wave.type
-  osc.frequency.value = settings.wave.frequency
+  osc.type = type
+  osc.frequency.value = frequency
   return osc
 }
 
-const createGain = (context, analyser) => {
-  const masterGainNode = context.createGain()
-  masterGainNode.connect(analyser)
-  analyser.connect(context.destination)
-  return masterGainNode
+const createGain = (context) => {
+  const gain = context.createGain()
+  return gain
+}
+
+const createAnalyser = (context) => {
+  const analyser = context.createAnalyser()
+  analyser.fftSize = 2048
+  return analyser
 }
 
 function Oscillator(context, settings) {
-  const oscillator = createOscillator(context, settings)
-  const analyser = context.createAnalyser()
-  analyser.fftSize = 2048
-  const gain = createGain(context, analyser)
-  oscillator.connect(gain)
+  const oscillator = createOscillator(context, settings.wave)
+  const gain = createGain(context)
+  const analyser = createAnalyser(context)
+  oscillator.connect(gain).connect(context.destination)
+  gain.connect(analyser)
   return { 
     settings, 
     node: oscillator, 

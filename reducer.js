@@ -13,11 +13,12 @@ function reducer({ action, state, context }) {
         playing: false,
       }
     case "ADD_OSCILLATOR":
+      const oscillator = Oscillator(context, initialOscillator.settings)
       return {
         ...state,
         oscillators: [
           ...state.oscillators,
-          Oscillator(context, initialOscillator.settings),
+          oscillator
         ],
       }
     case "PLAY_OSCILLATOR":
@@ -47,5 +48,24 @@ function reducer({ action, state, context }) {
           return Oscillator(context, settings)
         }),
       }
+    case "SET_WAVE_FORM": {
+      return {
+        ...state,
+        oscillators: state.oscillators.map(
+          (oscillator, i) => {
+            if(i === action.payload.index) {
+              if(oscillator.playing) {
+                oscillator.node.stop()
+              }
+              const osc = {...oscillator }
+              osc.settings.wave.type = action.payload.type
+              return {...Oscillator(context, osc.settings), playing: false}
+            } else {
+              return oscillator
+            }
+          }
+        )
+      }
+    }
   }
 }
