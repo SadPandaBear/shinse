@@ -76,8 +76,8 @@ function playNote(payload) {
               payload === "C4" ? 261.63 : payload === "E4" ? 329.63 : 392.0
             op.oscillator.start()
             op.gain.gain.setValueAtTime(0, T)
-            op.gain.gain.linearRampToValueAtTime(op.gain.gain.value, T + a)
-            op.gain.gain.linearRampToValueAtTime(s, T + a + d)
+            op.gain.gain.linearRampToValueAtTime(op.settings.volume, T + a)
+            op.gain.gain.linearRampToValueAtTime(op.settings.volume * s, T + a + d)
             updateContainer(Oscilloscope({ analyser: op.analyser, index }))
           }
         })

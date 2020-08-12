@@ -7,7 +7,6 @@ const createOscillator = (context, { type, frequency }) => {
 
 const createGain = (context, { volume }) => {
   const gain = context.createGain()
-  gain.gain.value = volume
   return gain
 }
 
