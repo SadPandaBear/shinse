@@ -12,7 +12,7 @@ const createGain = (context) => {
 
 const createAnalyser = (context) => {
   const analyser = context.createAnalyser()
-  analyser.fftSize = 2048
+  analyser.fftSize = Math.pow(2, 8)
   return analyser
 }
 

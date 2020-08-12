@@ -3,9 +3,10 @@ function Oscilloscope({ index, analyser }) {
   $elem.id = `oscillator-${index}`
   const canvasContext = $elem.getContext("2d")
 
-  $elem.width = 512
-  WIDTH = $elem.width
-  HEIGHT = $elem.height
+  $elem.width = 122
+  $elem.height = $elem.width * 0.5
+  const WIDTH = $elem.width
+  const HEIGHT = $elem.height
 
   const bufferLength = analyser.fftSize
   const dataArray = new Uint8Array(bufferLength)
