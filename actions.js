@@ -69,9 +69,11 @@ function playNote(payload) {
       if (newState.notes.length > 0) {
         const { id, operators } = newState.notes[newState.notes.length - 1]
         operators.forEach((op, index) => {
-          op.oscillator.frequency.value = payload === "C4" ? 261.63 : 587.33
-          op.oscillator.start()
-          updateContainer(Oscilloscope({ analyser: op.analyser, index }))
+          if (op.on) {
+            op.oscillator.frequency.value = payload === "C4" ? 261.63 : 587.33
+            op.oscillator.start()
+            updateContainer(Oscilloscope({ analyser: op.analyser, index }))
+          }
         })
       }
     },
@@ -86,8 +88,10 @@ function stopNote(payload) {
       const note = state.notes.find(({ id }) => id === payload)
       if (note) {
         note.operators.forEach((op, index) => {
-          op.oscillator.stop()
-          updateContainer(Oscilloscope({ analyser: op.analyser, index }))
+          if (op.on) {
+            op.oscillator.stop()
+            updateContainer(Oscilloscope({ analyser: op.analyser, index }))
+          }
         })
       }
     },

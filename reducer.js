@@ -30,9 +30,10 @@ function reducer({ action, state, context }) {
           ...state.notes,
           {
             id: action.payload,
-            operators: state.operators
-              .filter((op) => op.on)
-              .map((op) => ({ ...Operator(context, op.settings) })),
+            operators: state.operators.map((op) => ({
+              ...op,
+              ...Operator(context, op.settings),
+            })),
           },
         ],
       }
