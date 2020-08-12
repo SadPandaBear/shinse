@@ -1,6 +1,6 @@
 function Store(context, reducer) {
   context.suspend()
-  let REHYDRATED_state = initialState
+  let REHYDRATED_state
 
   function setupGlobalEventHandlers() {
     let keysPressed = {}
@@ -32,22 +32,21 @@ function Store(context, reducer) {
 
   function dispatch(state) {
     return ({ type, payload, effect }) => {
-      return dispatchEvent(
-        new CustomEvent("UPDATE_STORE", {
-          detail: { action: { type, payload }, context, state, effect },
-        }),
-      )
+      const params = {
+        action: { type, payload },
+        context,
+        state,
+        effect,
+        state: REHYDRATED_state,
+      }
+      const newState = reducer(params)
+      effect(newState, dispatch(newState), params)
+      REHYDRATED_state = newState
     }
   }
 
-  addEventListener("UPDATE_STORE", (e) => {
-    const params = { ...e.detail, state: REHYDRATED_state }
-    const newState = reducer(params)
-    e.detail.effect(newState, dispatch(newState), params)
-    REHYDRATED_state = newState
-  })
-
   return (state) => {
+    REHYDRATED_state = state
     setupGlobalEventHandlers()
     return {
       state,
