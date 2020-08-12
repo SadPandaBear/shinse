@@ -35,8 +35,6 @@ function Store(context, reducer) {
       const params = {
         action: { type, payload },
         context,
-        state,
-        effect,
         state: REHYDRATED_state,
       }
       const newState = reducer(params)
