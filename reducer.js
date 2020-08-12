@@ -1,13 +1,11 @@
 function reducer({ action, state, context }) {
   switch (action.type) {
     case "PLAY":
-      context.resume()
       return {
         ...state,
         playing: true,
       }
     case "STOP":
-      context.suspend()
       return {
         ...state,
         playing: false,
@@ -21,12 +19,6 @@ function reducer({ action, state, context }) {
         ],
       }
     case "STOP_NOTE":
-      state.operators.forEach((op) => {
-        if (op.playing && op.on) {
-          op.oscillator.stop()
-        }
-      })
-
       return {
         ...state,
         operators: state.operators.map((op) => ({
@@ -36,12 +28,6 @@ function reducer({ action, state, context }) {
         })),
       }
     case "PLAY_NOTE":
-      state.operators.forEach((op) => {
-        if (!op.playing && op.on) {
-          op.oscillator.start()
-        }
-      })
-
       return {
         ...state,
         operators: state.operators.map((op) => ({ ...op, playing: true })),
@@ -67,8 +53,8 @@ function reducer({ action, state, context }) {
     case "SETUP_OPERATORS":
       return {
         ...state,
-        operators: state.operators.map(({ settings }) => {
-          return Operator(context, settings)
+        operators: state.operators.map((op) => {
+          return { ...op, ...Operator(context, op.settings) }
         }),
       }
     case "SET_WAVE_FORM": {

@@ -1,39 +1,36 @@
 function Store(context, reducer) {
   context.suspend()
-  let DANGEROUS_state
+  let REHYDRATRED_state = initialState
 
   function setupGlobalEventHandlers() {
-    document.addEventListener("keypress", (e) => {
+    window.addEventListener("keypress", (e) => {
       const key = e.key.toLowerCase()
-      if (key === "q") {
-        dispatch(DANGEROUS_state)(playNote())
+      if (!e.repeat) {
+        if (key === "q") {
+          dispatch(REHYDRATRED_state)(playNote())
+        }
       }
     })
-    document.addEventListener("keyup", (e) => {
-      const key = e.key.toLowerCase()
-      if (key === "q") {
-        dispatch(DANGEROUS_state)(stopNote())
-      }
+    window.addEventListener("keyup", (e) => {
+      dispatch(REHYDRATRED_state)(stopNote())
     })
   }
 
   function dispatch(state) {
-    return ({ type, payload }) => {
+    return ({ type, payload, effect }) => {
       return dispatchEvent(
         new CustomEvent("UPDATE_STORE", {
-          detail: { action: { type, payload }, context, state },
+          detail: { action: { type, payload }, context, state, effect },
         }),
       )
     }
   }
 
   addEventListener("UPDATE_STORE", (e) => {
-    const newState = reducer(e.detail)
-    DANGEROUS_state = newState
-    update({
-      state: newState,
-      dispatch: dispatch(newState),
-    })
+    const params = { ...e.detail, state: REHYDRATRED_state }
+    const newState = reducer(params)
+    e.detail.effect(newState, dispatch(newState), params)
+    REHYDRATRED_state = newState
   })
 
   return (state) => {

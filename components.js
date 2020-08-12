@@ -1,5 +1,6 @@
-function Button({ onClick, title }) {
+function Button({ id, onClick, title }) {
   const $elem = document.createElement("button")
+  $elem.id = id
   $elem.innerHTML = title
   $elem.onclick = onClick
   return $elem
@@ -7,6 +8,7 @@ function Button({ onClick, title }) {
 
 function Play({ state, dispatch }) {
   return Button({
+    id: "play",
     onClick: () => {
       if (!state.playing) {
         dispatch(play())
@@ -20,6 +22,7 @@ function Play({ state, dispatch }) {
 
 function AddOperator({ dispatch }) {
   return Button({
+    id: "add-operator",
     onClick: () => {
       dispatch(addOperator())
     },
@@ -29,6 +32,7 @@ function AddOperator({ dispatch }) {
 
 function ChangeWave({ index, type, dispatch }) {
   const $select = document.createElement("select")
+  $select.id = `change-wave-${index}`
   const $options = Object.values(WaveType).map((val) => {
     const $option = document.createElement("option")
     $option.value = val
@@ -43,9 +47,9 @@ function ChangeWave({ index, type, dispatch }) {
   return $select
 }
 
-function Operators({ operators, dispatch }) {
+function Operators({ state: { operators }, dispatch }) {
   const $container = document.createElement("div")
-
+  $container.id = "operators"
   const $elems = operators.map((operator, index) => {
     const $elem = document.createElement("div")
     const $input = document.createElement("input")
@@ -61,11 +65,16 @@ function Operators({ operators, dispatch }) {
     $elem.appendChild(
       ChangeWave({ index, type: operator.settings.wave.type, dispatch }),
     )
-    $elem.appendChild(Oscilloscope({ analyser: operator.analyser }))
+    $elem.appendChild(Oscilloscope({ index, analyser: operator.analyser }))
     $elem.appendChild($input)
     return $elem
   })
 
   $container.append(...$elems)
   return $container
+}
+
+function updateContainer($el) {
+  const $rendered = document.getElementById($el.id)
+  $rendered.parentNode.replaceChild($el, $rendered)
 }

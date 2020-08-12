@@ -2,7 +2,7 @@ window.AudioContext =
   window.webkitAudioContext || window.AudioContext || window.mozAudioContext
 
 function render() {
-  return [Play, AddOperator, (props) => Operators({ ...props.state, ...props })]
+  return [Play, AddOperator, Operators]
 }
 
 function update({ state, dispatch }) {

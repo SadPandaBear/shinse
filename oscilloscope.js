@@ -1,5 +1,6 @@
-function Oscilloscope({ analyser }) {
+function Oscilloscope({ index, analyser }) {
   const $elem = document.createElement("canvas")
+  $elem.id = `oscillator-${index}`
   const canvasContext = $elem.getContext("2d")
 
   $elem.width = 512
