@@ -15,7 +15,7 @@ const initialOperator = {
       type: WaveType.SINE,
       frequency: 261.63,
     },
-    envelope: { a: 0.1, d: 0.2, s: 0.5, r: 0.2, level: 0.3 },
+    envelope: { a: 1, d: 1, s: 1, r: 1, level: 0.3 },
   },
   playing: false,
 }

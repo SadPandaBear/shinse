@@ -66,17 +66,13 @@ function Operators({ state: { operators }, dispatch }) {
       ChangeWave({ index, type: operator.settings.wave.type, dispatch }),
     )
     $elem.appendChild(Oscilloscope({ index, analyser: operator.analyser }))
+    $elem.appendChild(Envelope({ envelope: operator.settings.envelope, index }))
     $elem.appendChild($input)
     return $elem
   })
 
   $container.append(...$elems)
   return $container
-}
-
-function Envelope({ adsr, dispatch }) {
-  const $elem = document.createElement("div")
-  return $elem
 }
 
 function updateContainer($el) {
