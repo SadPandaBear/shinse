@@ -70,7 +70,7 @@ function playNote(payload) {
         const { id, operators } = newState.notes[newState.notes.length - 1]
         operators.forEach((op, index) => {
           if (op.on) {
-            op.oscillator.frequency.value = payload === "C4" ? 261.63 : 587.33
+            op.oscillator.frequency.value = payload === "C4" ? 261.63 : 293.665
             op.oscillator.start()
             updateContainer(Oscilloscope({ analyser: op.analyser, index }))
           }
