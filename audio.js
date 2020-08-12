@@ -5,8 +5,9 @@ const createOscillator = (context, { type, frequency }) => {
   return osc
 }
 
-const createGain = (context) => {
+const createGain = (context, { volume }) => {
   const gain = context.createGain()
+  gain.gain.value = volume
   return gain
 }
 
@@ -18,7 +19,7 @@ const createAnalyser = (context) => {
 
 function Operator(context, settings) {
   const oscillator = createOscillator(context, settings.wave)
-  const gain = createGain(context)
+  const gain = createGain(context, settings)
   const analyser = createAnalyser(context)
   oscillator.connect(gain).connect(context.destination)
   gain.connect(analyser)

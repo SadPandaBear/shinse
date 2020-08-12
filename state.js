@@ -10,6 +10,7 @@ const initialOperator = {
   gain: null,
   analyser: null,
   settings: {
+    volume: 0.5,
     wave: {
       type: WaveType.SINE,
       frequency: 261.63,

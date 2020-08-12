@@ -11,7 +11,9 @@ function Store(context, reducer) {
         if (key === "q") {
           dispatch(REHYDRATED_state)(playNote("C4"))
         } else if (key === "w") {
-          dispatch(REHYDRATED_state)(playNote("D5"))
+          dispatch(REHYDRATED_state)(playNote("E4"))
+        } else if (key === "e") {
+          dispatch(REHYDRATED_state)(playNote("G4"))
         }
       }
     })
@@ -21,7 +23,9 @@ function Store(context, reducer) {
       if (key === "q") {
         dispatch(REHYDRATED_state)(stopNote("C4"))
       } else if (key === "w") {
-        dispatch(REHYDRATED_state)(stopNote("D5"))
+        dispatch(REHYDRATED_state)(stopNote("E4"))
+      } else if (key === "e") {
+        dispatch(REHYDRATED_state)(stopNote("G4"))
       }
     })
   }
