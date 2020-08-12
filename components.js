@@ -59,7 +59,7 @@ function Operators({ operators, dispatch }) {
       }
     }
     $elem.appendChild(
-      ChangeWave({ index, type: operator.settings.wave.type, dispatch })
+      ChangeWave({ index, type: operator.settings.wave.type, dispatch }),
     )
     $elem.appendChild(Oscilloscope({ analyser: operator.analyser }))
     $elem.appendChild($input)

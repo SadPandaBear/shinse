@@ -27,6 +27,5 @@ function Operator(context, settings) {
     oscillator,
     gain,
     analyser,
-    on: false,
   }
 }

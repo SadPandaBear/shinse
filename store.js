@@ -22,7 +22,7 @@ function Store(context, reducer) {
       return dispatchEvent(
         new CustomEvent("UPDATE_STORE", {
           detail: { action: { type, payload }, context, state },
-        })
+        }),
       )
     }
   }

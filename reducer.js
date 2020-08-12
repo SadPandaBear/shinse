@@ -22,7 +22,7 @@ function reducer({ action, state, context }) {
       }
     case "STOP_NOTE":
       state.operators.forEach((op) => {
-        if (op.playing) {
+        if (op.playing && op.on) {
           op.oscillator.stop()
         }
       })
@@ -37,7 +37,7 @@ function reducer({ action, state, context }) {
       }
     case "PLAY_NOTE":
       state.operators.forEach((op) => {
-        if (!op.playing) {
+        if (!op.playing && op.on) {
           op.oscillator.start()
         }
       })
@@ -76,6 +76,7 @@ function reducer({ action, state, context }) {
         ...state,
         operators: state.operators.map((operator, i) => {
           if (i === action.payload.index) {
+            operator.oscillator.type = action.payload.type
             const op = {
               ...operator,
               settings: {
@@ -87,7 +88,7 @@ function reducer({ action, state, context }) {
               },
             }
 
-            return { ...Operator(context, op.settings), on: false }
+            return op
           } else {
             return operator
           }
