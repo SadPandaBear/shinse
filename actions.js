@@ -65,14 +65,20 @@ function playNote(payload) {
   return {
     type: "PLAY_NOTE",
     payload,
-    effect: (newState, dispatch, { state }) => {
+    effect: (newState, dispatch, { state, context }) => {
       if (newState.notes.length > 0) {
         const { id, operators } = newState.notes[newState.notes.length - 1]
         operators.forEach((op, index) => {
           if (op.on) {
+            const { a, d, s, level } = op.settings.envelope
+            const T = context.currentTime
             op.oscillator.frequency.value =
               payload === "C4" ? 261.63 : payload === "E4" ? 329.63 : 392.0
             op.oscillator.start()
+            op.gain.gain.linearRampToValueAtTime(0, T + 0)
+            op.gain.gain.linearRampToValueAtTime(1, T + a)
+            op.gain.gain.linearRampToValueAtTime(level, T + a + d)
+            op.gain.gain.linearRampToValueAtTime(level, T + a + d + s)
             updateContainer(Oscilloscope({ analyser: op.analyser, index }))
           }
         })
@@ -85,15 +91,15 @@ function stopNote(payload) {
   return {
     type: "STOP_NOTE",
     payload,
-    effect: (newState, dispatch, { state }) => {
+    effect: (newState, dispatch, { state, context }) => {
       const note = state.notes.find(({ id }) => id === payload)
-      if (note) {
-        note.operators.forEach((op, index) => {
-          if (op.on) {
-            op.oscillator.stop()
-          }
-        })
-      }
+      note.operators.forEach((op, index) => {
+        const { a, d, s, r } = op.settings.envelope
+        const T = context.currentTime
+        if (op.on) {
+          op.gain.gain.linearRampToValueAtTime(0, T + a + d + s + r)
+        }
+      })
     },
   }
 }
