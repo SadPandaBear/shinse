@@ -6,7 +6,7 @@ const WaveType = {
 }
 
 const initialOperator = {
-  node: null,
+  oscillator: null,
   gain: null,
   analyser: null,
   settings: {

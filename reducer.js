@@ -20,23 +20,47 @@ function reducer({ action, state, context }) {
           Operator(context, initialOperator.settings),
         ],
       }
-    case "PLAY_OPERATOR":
-      state.operators[action.payload.index].oscillator.start()
+    case "STOP_NOTE":
+      state.operators.forEach((op) => {
+        if (op.playing) {
+          op.oscillator.stop()
+        }
+      })
+
+      return {
+        ...state,
+        operators: state.operators.map((op) => ({
+          ...Operator(context, op.settings),
+          playing: false,
+          on: op.on,
+        })),
+      }
+    case "PLAY_NOTE":
+      state.operators.forEach((op) => {
+        if (!op.playing) {
+          op.oscillator.start()
+        }
+      })
+
+      return {
+        ...state,
+        operators: state.operators.map((op) => ({ ...op, playing: true })),
+      }
+    case "TURN_OPERATOR_ON":
       return {
         ...state,
         operators: state.operators.map((operator, i) => {
           return i === action.payload.index
-            ? { ...operator, playing: true }
+            ? { ...operator, on: true }
             : operator
         }),
       }
-    case "STOP_OPERATOR":
-      state.operators[action.payload.index].oscillator.stop()
+    case "TURN_OPERATOR_OFF":
       return {
         ...state,
         operators: state.operators.map((operator, i) => {
           return i === action.payload.index
-            ? { ...Operator(context, operator.settings), playing: false }
+            ? { ...Operator(context, operator.settings), on: false }
             : operator
         }),
       }
@@ -52,10 +76,6 @@ function reducer({ action, state, context }) {
         ...state,
         operators: state.operators.map((operator, i) => {
           if (i === action.payload.index) {
-            if (operator.playing) {
-              operator.oscillator.stop()
-            }
-
             const op = {
               ...operator,
               settings: {
@@ -67,7 +87,7 @@ function reducer({ action, state, context }) {
               },
             }
 
-            return { ...Operator(context, op.settings), playing: false }
+            return { ...Operator(context, op.settings), on: false }
           } else {
             return operator
           }

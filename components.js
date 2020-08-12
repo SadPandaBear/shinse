@@ -50,12 +50,12 @@ function Operators({ operators, dispatch }) {
     const $elem = document.createElement("div")
     const $input = document.createElement("input")
     $input.type = "checkbox"
-    $input.checked = operator.playing
+    $input.checked = operator.on
     $input.onchange = (e) => {
-      if (!operator.playing) {
-        dispatch(playOperator({ index }))
+      if (!operator.on) {
+        dispatch(turnOperatorOn({ index }))
       } else {
-        dispatch(stopOperator({ index }))
+        dispatch(turnOperatorOff({ index }))
       }
     }
     $elem.appendChild(

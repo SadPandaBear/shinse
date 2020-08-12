@@ -22,16 +22,30 @@ function addOperator() {
   }
 }
 
-function stopOperator(payload) {
+function turnOperatorOff(payload) {
   return {
-    type: "STOP_OPERATOR",
+    type: "TURN_OPERATOR_OFF",
     payload,
   }
 }
 
-function playOperator(payload) {
+function turnOperatorOn(payload) {
   return {
-    type: "PLAY_OPERATOR",
+    type: "TURN_OPERATOR_ON",
+    payload,
+  }
+}
+
+function playNote(payload) {
+  return {
+    type: "PLAY_NOTE",
+    payload,
+  }
+}
+
+function stopNote(payload) {
+  return {
+    type: "STOP_NOTE",
     payload,
   }
 }
