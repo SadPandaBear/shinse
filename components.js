@@ -74,6 +74,11 @@ function Operators({ state: { operators }, dispatch }) {
   return $container
 }
 
+function Envelope({ adsr, dispatch }) {
+  const $elem = document.createElement("div")
+  return $elem
+}
+
 function updateContainer($el) {
   const $rendered = document.getElementById($el.id)
   $rendered.parentNode.replaceChild($el, $rendered)
