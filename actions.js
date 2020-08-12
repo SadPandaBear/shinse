@@ -90,7 +90,6 @@ function stopNote(payload) {
         note.operators.forEach((op, index) => {
           if (op.on) {
             op.oscillator.stop()
-            updateContainer(Oscilloscope({ analyser: op.analyser, index }))
           }
         })
       }

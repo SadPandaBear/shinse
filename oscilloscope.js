@@ -1,4 +1,9 @@
+let animationFrames = {}
+
 function Oscilloscope({ index, analyser }) {
+  if (animationFrames[index]) {
+    cancelAnimationFrame(animationFrames[index])
+  }
   const $elem = document.createElement("canvas")
   $elem.id = `oscillator-${index}`
   const canvasContext = $elem.getContext("2d")
@@ -13,7 +18,7 @@ function Oscilloscope({ index, analyser }) {
   const sliceWidth = (WIDTH * 1.0) / bufferLength
 
   function draw() {
-    requestAnimationFrame(draw)
+    animationFrames[index] = requestAnimationFrame(draw)
     analyser.getByteTimeDomainData(dataArray)
 
     canvasContext.fillStyle = "black"
