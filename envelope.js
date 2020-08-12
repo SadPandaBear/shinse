@@ -10,7 +10,7 @@ function Envelope({ envelope, dispatch, index }) {
   $elem.setAttributeNS(null, "height", height);
   $elem.setAttributeNS(null, "baseProfile", height);
   
-  const { a, d, s, r, level } = envelope
+  const { a, d, s, r } = envelope
 
   const wRatio = width / 4;
   const hRatio = height / 1;
@@ -24,7 +24,7 @@ function Envelope({ envelope, dispatch, index }) {
   paths.push(`${x} ${y}`)
 
   x += d * wRatio
-  y = height - level * hRatio
+  y = height - s * hRatio
   paths.push(`${x} ${y}`)
 
   x += 1 * wRatio

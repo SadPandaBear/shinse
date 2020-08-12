@@ -9,13 +9,18 @@ const initialOperator = {
   oscillator: null,
   gain: null,
   analyser: null,
+  lfo: null,
   settings: {
-    volume: 0.5,
+    volume: 1,
     wave: {
       type: WaveType.SINE,
       frequency: 261.63,
     },
-    envelope: { a: 1, d: 1, s: 1, r: 1, level: 0.3 },
+    envelope: { a: 1, d: 1, s: 1, r: 1 },
+    lfo: {
+      type: WaveType.SINE,
+      frequency: 2,
+    }
   },
   playing: false,
 }
