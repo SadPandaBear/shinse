@@ -21,16 +21,20 @@ function reducer({ action, state, context }) {
     case "STOP_NOTE":
       return {
         ...state,
-        operators: state.operators.map((op) => ({
-          ...Operator(context, op.settings),
-          playing: false,
-          on: op.on,
-        })),
+        notes: state.notes.filter(({ id }) => action.payload !== id),
       }
     case "PLAY_NOTE":
       return {
         ...state,
-        operators: state.operators.map((op) => ({ ...op, playing: true })),
+        notes: [
+          ...state.notes,
+          {
+            id: action.payload,
+            operators: state.operators
+              .filter((op) => op.on)
+              .map((op) => ({ ...Operator(context, op.settings) })),
+          },
+        ],
       }
     case "TURN_OPERATOR_ON":
       return {
@@ -46,7 +50,11 @@ function reducer({ action, state, context }) {
         ...state,
         operators: state.operators.map((operator, i) => {
           return i === action.payload.index
-            ? { ...Operator(context, operator.settings), on: false }
+            ? {
+                ...Operator(context, operator.settings),
+                playing: false,
+                on: false,
+              }
             : operator
         }),
       }

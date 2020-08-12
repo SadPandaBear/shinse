@@ -21,4 +21,5 @@ const initialOperator = {
 const initialState = {
   operators: [initialOperator],
   playing: false,
+  notes: [],
 }

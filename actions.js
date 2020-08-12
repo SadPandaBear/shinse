@@ -40,7 +40,12 @@ function turnOperatorOff(payload) {
   return {
     type: "TURN_OPERATOR_OFF",
     payload,
-    effect: (newState, dispatch) => {
+    effect: (newState, dispatch, { state }) => {
+      state.operators.forEach((operator) => {
+        if (operator.playing) {
+          operator.oscillator.stop()
+        }
+      })
       updateContainer(Operators({ state: newState, dispatch }))
     },
   }
@@ -61,12 +66,14 @@ function playNote(payload) {
     type: "PLAY_NOTE",
     payload,
     effect: (newState, dispatch, { state }) => {
-      state.operators.forEach((op, index) => {
-        if (!op.playing && op.on) {
+      if (newState.notes.length > 0) {
+        const { id, operators } = newState.notes[newState.notes.length - 1]
+        operators.forEach((op, index) => {
+          op.oscillator.frequency.value = payload === "C4" ? 261.63 : 587.33
           op.oscillator.start()
           updateContainer(Oscilloscope({ analyser: op.analyser, index }))
-        }
-      })
+        })
+      }
     },
   }
 }
@@ -76,11 +83,13 @@ function stopNote(payload) {
     type: "STOP_NOTE",
     payload,
     effect: (newState, dispatch, { state }) => {
-      state.operators.forEach((op) => {
-        if (op.playing && op.on) {
+      const note = state.notes.find(({ id }) => id === payload)
+      if (note) {
+        note.operators.forEach((op, index) => {
           op.oscillator.stop()
-        }
-      })
+          updateContainer(Oscilloscope({ analyser: op.analyser, index }))
+        })
+      }
     },
   }
 }

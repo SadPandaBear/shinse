@@ -1,18 +1,28 @@
 function Store(context, reducer) {
   context.suspend()
-  let REHYDRATRED_state = initialState
+  let REHYDRATED_state = initialState
 
   function setupGlobalEventHandlers() {
+    let keysPressed = {}
     window.addEventListener("keypress", (e) => {
       const key = e.key.toLowerCase()
-      if (!e.repeat) {
+      if (!keysPressed[key]) {
+        keysPressed[key] = true
         if (key === "q") {
-          dispatch(REHYDRATRED_state)(playNote())
+          dispatch(REHYDRATED_state)(playNote("C4"))
+        } else if (key === "w") {
+          dispatch(REHYDRATED_state)(playNote("D5"))
         }
       }
     })
     window.addEventListener("keyup", (e) => {
-      dispatch(REHYDRATRED_state)(stopNote())
+      const key = e.key.toLowerCase()
+      keysPressed[key] = false
+      if (key === "q") {
+        dispatch(REHYDRATED_state)(stopNote("C4"))
+      } else if (key === "w") {
+        dispatch(REHYDRATED_state)(stopNote("D5"))
+      }
     })
   }
 
@@ -27,10 +37,10 @@ function Store(context, reducer) {
   }
 
   addEventListener("UPDATE_STORE", (e) => {
-    const params = { ...e.detail, state: REHYDRATRED_state }
+    const params = { ...e.detail, state: REHYDRATED_state }
     const newState = reducer(params)
     e.detail.effect(newState, dispatch(newState), params)
-    REHYDRATRED_state = newState
+    REHYDRATED_state = newState
   })
 
   return (state) => {
