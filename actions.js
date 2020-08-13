@@ -74,10 +74,24 @@ function playNote(payload) {
             const T = context.currentTime
             op.oscillator.frequency.value =
               payload === "C4" ? 261.63 : payload === "E4" ? 329.63 : 392.0
-            op.oscillator.start()
+
+            op.oscillator.start(T)
+            op.lfo.oscillator.start(T)
+
             op.gain.gain.setValueAtTime(0, T)
             op.gain.gain.linearRampToValueAtTime(op.settings.volume, T + a)
-            op.gain.gain.linearRampToValueAtTime(op.settings.volume * s, T + a + d)
+            op.gain.gain.linearRampToValueAtTime(
+              op.settings.volume * s,
+              T + a + d,
+            )
+
+            op.lfo.gain.gain.linearRampToValueAtTime(0, T)
+            op.lfo.gain.gain.linearRampToValueAtTime(op.settings.volume, T + a)
+            op.lfo.gain.gain.linearRampToValueAtTime(
+              op.settings.volume * s,
+              T + a + d,
+            )
+
             updateContainer(Oscilloscope({ analyser: op.analyser, index }))
           }
         })
@@ -97,6 +111,7 @@ function stopNote(payload) {
         const T = context.currentTime
         if (op.on) {
           op.gain.gain.linearRampToValueAtTime(0, T + a + d + r)
+          op.lfo.gain.gain.linearRampToValueAtTime(0, T + a + d + r)
         }
       })
     },

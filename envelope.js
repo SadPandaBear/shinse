@@ -6,16 +6,16 @@ function Envelope({ envelope, dispatch, index }) {
   const baseProfile = "full"
 
   const $elem = document.createElementNS(xlmns, "svg")
-  $elem.setAttributeNS(null, "width", width);
-  $elem.setAttributeNS(null, "height", height);
-  $elem.setAttributeNS(null, "baseProfile", height);
-  
+  $elem.setAttributeNS(null, "width", width)
+  $elem.setAttributeNS(null, "height", height)
+  $elem.setAttributeNS(null, "baseProfile", height)
+
   const { a, d, s, r } = envelope
 
-  const wRatio = width / 4;
-  const hRatio = height / 1;
+  const wRatio = width / 4
+  const hRatio = height / 1
 
-  const paths = [];
+  const paths = []
   let x = 0
   let y = 0
 
@@ -29,12 +29,12 @@ function Envelope({ envelope, dispatch, index }) {
 
   x += 1 * wRatio
   paths.push(`${x} ${y}`)
-  
+
   x += r * wRatio
   y = height
   paths.push(`${x} ${y}`)
-  
-  const path = `M0 ${height},${paths.join(',')}` 
+
+  const path = `M0 ${height},${paths.join(",")}`
 
   $elem.innerHTML = `<path d="${path}" stroke="white" stroke-width="2" fill="none"></path>`
 
